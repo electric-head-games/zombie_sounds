@@ -26,18 +26,19 @@ body, html, #root {
 .grid-wrapper {
   flex: 1;
   display: flex;
-  align-items: center;      /* vertical center */
-  justify-content: center;  /* horizontal center */
+  align-items: flex-start;  /* align to top instead of center */
+  justify-content: center;  /* ensure horizontal centering */
   padding: 2rem;
   box-sizing: border-box;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .player {
@@ -51,10 +52,24 @@ body, html, #root {
   height: 180px;
 }
 
-.label {
+.label-container {
   margin-bottom: 1rem;
-  font-size: 1rem;
   text-align: center;
+}
+
+.sound-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 0 0.25rem 0;
+  color: #f2f2f2;
+}
+
+.filename {
+  font-size: 0.85rem;
+  font-weight: normal;
+  margin: 0;
+  color: #ccc;
+  line-height: 1.2;
 }
 
 .play-btn {
@@ -79,6 +94,18 @@ body, html, #root {
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  position: relative;
+}
+
+.progress-bar:hover {
+  background: #666;
+}
+
+.progress-bar.dragging {
+  background: #777;
+  cursor: grabbing;
 }
 
 .progress {
@@ -86,12 +113,41 @@ body, html, #root {
   height: 100%;
   width: 0%;
   transition: width 0.1s linear;
+  border-radius: 4px;
+}
+
+.progress-bar.dragging .progress {
+  transition: none; /* Remove transition during drag for immediate feedback */
+}
+
+.progress-handle {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: 2px solid limegreen;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  transition: all 0.1s ease;
+  opacity: 0;
+}
+
+.progress-bar:hover .progress-handle,
+.progress-bar.dragging .progress-handle {
+  opacity: 1;
+}
+
+.progress-bar.dragging .progress-handle {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.2);
 }
 
 /* Responsive */
 @media (max-width: 1000px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
