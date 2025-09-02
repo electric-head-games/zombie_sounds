@@ -28,9 +28,12 @@ const sounds = [
 ];
 
 function App() {
-  // Initialize all sounds as enabled (checked)
+  // Initialize sounds with Sound 4 disabled by default
   const [enabledSounds, setEnabledSounds] = useState(
-    sounds.reduce((acc, _, idx) => ({ ...acc, [idx]: true }), {})
+    sounds.reduce((acc, _, idx) => ({ 
+      ...acc, 
+      [idx]: idx !== 3 // Sound 4 (index 3) starts disabled
+    }), {})
   );
 
   const toggleSound = (index) => {
